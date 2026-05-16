@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PulseWatch NOC - Start</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            text-align: center;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 60px 40px;
+            max-width: 700px;
+            animation: slideUp 0.5s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .logo {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 32px;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 40px;
+            font-size: 16px;
+        }
+
+        .modes {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .mode-card {
+            flex: 1;
+            min-width: 250px;
+            padding: 30px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: #f9f9f9;
+        }
+
+        .mode-card:hover {
+            border-color: #667eea;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.2);
+        }
+
+        .mode-card.active {
+            border-color: #667eea;
+            background: #f0f4ff;
+        }
+
+        .mode-icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+        }
+
+        .mode-title {
+            font-size: 20px;
+            color: #333;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .mode-desc {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            text-align: left;
+            display: none;
+        }
+
+        .input-group.show {
+            display: block;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        button {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-start {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            min-width: 200px;
+        }
+
+        .btn-start:hover:not(:disabled) {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-start:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn-cancel {
+            background: #f0f0f0;
+            color: #333;
+            border: 1px solid #ddd;
+        }
+
+        .btn-cancel:hover {
+            background: #e0e0e0;
+        }
+
+        .info-box {
+            background: #e3f2fd;
+            border-left: 4px solid #2196F3;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 30px;
+            text-align: left;
+            color: #333;
+            font-size: 14px;
+        }
+
+        .info-box strong {
+            display: block;
+            margin-bottom: 8px;
+            color: #1976D2;
+        }
+
+        .info-box p {
+            margin-bottom: 5px;
+            line-height: 1.6;
+        }
+
+        .footer {
+            margin-top: 40px;
+            color: #999;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">🖥️</div>
+        <h1>PulseWatch NOC</h1>
+        <p class="subtitle">Real-time Network Monitoring Dashboard</p>
+
+        <div class="modes">
+            <div class="mode-card" onclick="selectMode('server')">
+                <div class="mode-icon">🖧</div>
+                <div class="mode-title">Server Mode</div>
+                <div class="mode-desc">Run monitoring engine and manage devices. Devices will be continuously monitored.</div>
+            </div>
+
+            <div class="mode-card" onclick="selectMode('viewer')">
+                <div class="mode-icon">📊</div>
+                <div class="mode-title">Viewer Mode</div>
+                <div class="mode-desc">Connect to a remote server and view monitoring data. Requires server IP address.</div>
+            </div>
+        </div>
+
+        <div class="input-group" id="viewerInput">
+            <label for="serverIp">Server IP Address:</label>
+            <input type="text" id="serverIp" placeholder="e.g., 192.168.1.100:8000">
+        </div>
+
+        <div class="button-group">
+            <button class="btn-start" onclick="startApplication()">Start</button>
+            <button class="btn-cancel" onclick="cancelMode()">Cancel</button>
+        </div>
+
+        <div class="info-box" id="infoBox" style="display: none;">
+            <strong>ℹ️ Note:</strong>
+            <p id="infoText"></p>
+        </div>
+
+        <div class="footer">
+            <p>PulseWatch v1.0.0 | Netraix Technologies</p>
+            <p>© 2026 - Professional Network Monitoring</p>
+        </div>
+    </div>
+
+    <script>
+        let selectedMode = null;
+
+        function selectMode(mode) {
+            selectedMode = mode;
+            
+            // Update card styles
+            document.querySelectorAll('.mode-card').forEach(card => {
+                card.classList.remove('active');
+            });
+            event.target.closest('.mode-card').classList.add('active');
+
+            // Show/hide input for viewer mode
+            const viewerInput = document.getElementById('viewerInput');
+            const infoBox = document.getElementById('infoBox');
+            const infoText = document.getElementById('infoText');
+
+            if (mode === 'viewer') {
+                viewerInput.classList.add('show');
+                infoBox.style.display = 'block';
+                infoText.textContent = 'Viewer mode connects to a remote server. Make sure the server is running and accessible at the provided IP address.';
+            } else {
+                viewerInput.classList.remove('show');
+                infoBox.style.display = 'block';
+                infoText.textContent = 'Server mode will start the monitoring engine. Devices in the database will be continuously monitored for availability.';
+            }
+        }
+
+        function startApplication() {
+            if (!selectedMode) {
+                alert('Please select a mode (Server or Viewer)');
+                return;
+            }
+
+            if (selectedMode === 'viewer') {
+                const serverIp = document.getElementById('serverIp').value.trim();
+                if (!serverIp) {
+                    alert('Please enter server IP address');
+                    return;
+                }
+                // In real scenario, this would connect to remote server
+                window.location.href = `dashboard.html?mode=viewer&server=${encodeURIComponent(serverIp)}`;
+            } else {
+                // Server mode - go to dashboard with server mode enabled
+                window.location.href = 'dashboard.html?mode=server';
+            }
+        }
+
+        function cancelMode() {
+            selectedMode = null;
+            document.querySelectorAll('.mode-card').forEach(card => {
+                card.classList.remove('active');
+            });
+            document.getElementById('viewerInput').classList.remove('show');
+            document.getElementById('infoBox').style.display = 'none';
+        }
+
+        // Allow Enter key to start
+        document.getElementById('serverIp')?.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') startApplication();
+        });
+    </script>
+</body>
+</html>
